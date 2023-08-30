@@ -22,7 +22,8 @@ description = "kafka-connect-dynamodb"
 
 allprojects {
     group "com.trustpilot.kafka.connect.dynamodb"
-    version = gitVersion()
+    // Don't force 'version' here - specify at build time with `./gradlew -Pversion=x.y.z`
+    //version = gitVersion()
 
     repositories {
         jcenter()
@@ -66,8 +67,8 @@ allprojects {
 
     test {
         exclude '**/**IT**'
-	    useJUnitPlatform()
-	    testLogging {
+        useJUnitPlatform()
+        testLogging {
             outputs.upToDateWhen {false}
             events = ["passed", "failed", "skipped"]
             showStandardStreams = true
@@ -76,7 +77,7 @@ allprojects {
                     println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
                 }
             }
-	    }
+        }
     }
 
     task integrationTests(type: Test) {
@@ -103,14 +104,14 @@ dependencies {
 }
 
 shadowJar {
-	dependencies {
-		// provided in the connect classpath
-		exclude(dependency("org.apache.kafka:connect-api:${rootProject.ext.kafkaConnectApiVersion}"))
-		exclude(dependency("org.apache.kafka:kafka-clients:${rootProject.ext.kafkaConnectApiVersion}"))
-		exclude(dependency('net.jpountz.lz4:.*:.*'))
-		exclude(dependency('org.xerial.snappy:.*:.*'))
-		exclude(dependency('org.slf4j:.*:.*'))
-	}
+    dependencies {
+        // provided in the connect classpath
+        exclude(dependency("org.apache.kafka:connect-api:${rootProject.ext.kafkaConnectApiVersion}"))
+        exclude(dependency("org.apache.kafka:kafka-clients:${rootProject.ext.kafkaConnectApiVersion}"))
+        exclude(dependency('net.jpountz.lz4:.*:.*'))
+        exclude(dependency('org.xerial.snappy:.*:.*'))
+        exclude(dependency('org.slf4j:.*:.*'))
+    }
 }
 
 buildtimetracker {
