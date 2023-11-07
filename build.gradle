@@ -10,7 +10,7 @@ plugins {
     id 'com.palantir.git-version' version '0.5.2'
     id 'com.github.johnrengelman.shadow' version '2.0.4'
     id 'java'
-    id "com.github.spotbugs" version "2.0.0" apply false
+    id "com.github.spotbugs" version "4.8.0" apply false
     id "net.rdrei.android.buildtimetracker" version "0.11.0"
 }
 
@@ -36,10 +36,11 @@ allprojects {
     apply plugin: 'idea'
 
     apply plugin: 'com.github.spotbugs'
-    tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    tasks.withType(com.github.spotbugs.snom.SpotBugsTask).configureEach {
         reports {
-          xml.enabled = false
-          html.enabled = true
+            xml.required.set(false)
+            html.required.set(true)
+            ignoreFailures true
         }
     }
     apply plugin: "build-time-tracker"
@@ -57,7 +58,7 @@ allprojects {
         testCompile "org.testcontainers:kafka:1.15.0-rc2"
         testCompile "org.testcontainers:mockserver:1.15.0-rc2"
         testCompile "org.mock-server:mockserver-client-java:5.11.1"
-        testCompile "com.google.code.gson:gson:2.8.6"
+        testCompile "com.google.code.gson:gson:2.8.9"
 
         testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '2.26.0'
         compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.17.1'

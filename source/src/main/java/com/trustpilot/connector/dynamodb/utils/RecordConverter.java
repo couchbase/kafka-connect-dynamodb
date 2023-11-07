@@ -4,8 +4,12 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
 import com.amazonaws.services.dynamodbv2.model.TableDescription;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.trustpilot.connector.dynamodb.Envelope;
 import com.trustpilot.connector.dynamodb.SourceInfo;
 import org.apache.kafka.connect.data.Schema;
@@ -40,6 +44,7 @@ public class RecordConverter {
     private final String topic_name;
     private Schema keySchema;
     private final Schema valueSchema;
+    private static final Gson gson = new Gson();
 
     private List<String> keys;
 
@@ -99,9 +104,16 @@ public class RecordConverter {
             throw new Exception("Unsupported key AttributeValue");
         }
 
+        // convert to regular json
+        String value = objectMapper.writeValueAsString(sanitisedAttributes);
+        final Map<String, software.amazon.awssdk.services.dynamodb.model.AttributeValue> tempAttributeMap = gson.fromJson(value, new TypeToken<Map<String, software.amazon.awssdk.services.dynamodb.model.AttributeValue>>() {}.getType());
+
+        JsonNode convertedJson = new JsonConverter().mapToJsonObject(tempAttributeMap);
+        String newValue = objectMapper.writeValueAsString(objectMapper.convertValue(convertedJson, new TypeReference<Map<String, Object>>() {}));
+
         Struct valueData = new Struct(valueSchema)
                 .put(Envelope.FieldName.VERSION, sourceInfo.version)
-                .put(Envelope.FieldName.DOCUMENT, objectMapper.writeValueAsString(sanitisedAttributes))
+                .put(Envelope.FieldName.DOCUMENT, newValue)
                 .put(Envelope.FieldName.SOURCE, SourceInfo.toStruct(sourceInfo))
                 .put(Envelope.FieldName.OPERATION, op.code())
                 .put(Envelope.FieldName.TIMESTAMP, arrivalTimestamp.toEpochMilli());

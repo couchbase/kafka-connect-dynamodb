@@ -343,12 +343,15 @@ public class DynamoDBSourceTask extends SourceTask {
                 }
 
                 SourceRecord sourceRecord = converter.toSourceRecord(sourceInfo,
-                                                                     op,
-                                                                     attributes,
-                                                                     arrivalTimestamp.toInstant(),
-                                                                     dynamoDBRecords.getShardId(),
-                                                                     record.getSequenceNumber());
-                result.add(sourceRecord);
+                        op,
+                        attributes,
+                        arrivalTimestamp.toInstant(),
+                        dynamoDBRecords.getShardId(),
+                        record.getSequenceNumber());
+
+                if( op != Envelope.Operation.DELETE ) {
+                    result.add(sourceRecord);
+                }
 
                 if (op == Envelope.Operation.DELETE) {
                     // send a tombstone event (null value) for the old key so it can be removed from the Kafka log eventually...
