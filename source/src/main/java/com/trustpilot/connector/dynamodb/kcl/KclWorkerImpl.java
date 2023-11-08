@@ -47,6 +47,7 @@ public class KclWorkerImpl implements KclWorker {
     public void start(AmazonDynamoDB dynamoDBClient,
                       AmazonDynamoDBStreams dynamoDBStreamsClient,
                       String tableName,
+                      String consumerIdentifier,
                       String taskid,
                       String endpoint,
                       BillingMode kclTableBillingMode) {
@@ -54,6 +55,7 @@ public class KclWorkerImpl implements KclWorker {
                 recordProcessorsRegister);
 
         KinesisClientLibConfiguration clientLibConfiguration = getClientLibConfiguration(tableName,
+                consumerIdentifier,
                 taskid,
                 dynamoDBClient, endpoint, kclTableBillingMode);
 
@@ -120,6 +122,7 @@ public class KclWorkerImpl implements KclWorker {
     }
 
     KinesisClientLibConfiguration getClientLibConfiguration(String tableName,
+                                                            String consumerIdentifier,
                                                             String taskid,
                                                             AmazonDynamoDB dynamoDBClient,
                                                             String endpoint,
@@ -129,11 +132,13 @@ public class KclWorkerImpl implements KclWorker {
                 new DescribeTableRequest()
                         .withTableName(tableName)).getTable().getLatestStreamArn();
 
+        String applicationName = Constants.KCL_WORKER_APPLICATION_NAME_PREFIX + consumerIdentifier + "-" + tableName;
+
         return new KinesisClientLibConfiguration(
-                Constants.KCL_WORKER_APPLICATION_NAME_PREFIX + tableName,
+                applicationName,
                 streamArn,
                 awsCredentialsProvider,
-                Constants.KCL_WORKER_APPLICATION_NAME_PREFIX + tableName + Constants.KCL_WORKER_NAME_PREFIX + taskid)
+                applicationName + Constants.KCL_WORKER_NAME_PREFIX + taskid)
 
                 // worker will call record processor even if there is no new data,
                 // giving worker a chance to checkpoint previously queued and now committed data.

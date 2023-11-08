@@ -150,7 +150,7 @@ public class DynamoDBSourceTask extends SourceTask {
                     eventsQueue,
                     shardRegister);
         }
-        kclWorker.start(client, dynamoDBStreamsClient, tableDesc.getTableName(), config.getTaskID(), config.getDynamoDBServiceEndpoint(), config.getKCLTableBillingMode());
+        kclWorker.start(client, dynamoDBStreamsClient, tableDesc.getTableName(), config.getConnectorIdentifierName(), config.getTaskID(), config.getDynamoDBServiceEndpoint(), config.getKCLTableBillingMode());
 
         shutdown = false;
     }

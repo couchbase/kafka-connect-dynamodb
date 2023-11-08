@@ -7,7 +7,6 @@ import java.util.Map;
 public class DynamoDBSourceTaskConfig extends DynamoDBSourceConnectorConfig {
     public static final String TABLE_NAME_CONFIG = "table";
     private static final String TABLE_NAME_DOC = "table for this task to watch for changes.";
-
     public static final String TASK_ID_CONFIG = "task.id";
     private static final String TASK_ID_DOC = "Per table id of the task.";
 
@@ -21,6 +20,10 @@ public class DynamoDBSourceTaskConfig extends DynamoDBSourceConnectorConfig {
 
     public String getTableName() {
         return getString(TABLE_NAME_CONFIG);
+    }
+
+    public String getConnectorIdentifierName() {
+        return getString(DST_TOPIC_PREFIX_CONFIG);
     }
 
     public String getTaskID() {

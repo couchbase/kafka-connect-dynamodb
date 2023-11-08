@@ -8,6 +8,7 @@ public interface KclWorker {
     void start(AmazonDynamoDB dynamoDBClient,
                AmazonDynamoDBStreams dynamoDBStreamsClient,
                String tableName,
+               String consumerIdentifier,
                String taskid,
                String endpoint,
                BillingMode kclTablebillingMode);

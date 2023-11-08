@@ -29,6 +29,7 @@ import static org.mockito.Mockito.*;
 @SuppressWarnings("ConstantConditions")
 public class DynamoDBSourceTaskTests {
     private final static String tableName = "testTable1";
+    private final static String consumerIdentifier = "consumerIdentifier";
 
     private HashMap<String, String> configs;
 
@@ -206,6 +207,7 @@ public class DynamoDBSourceTaskTests {
                 any(AmazonDynamoDB.class),
                 any(AmazonDynamoDBStreamsClient.class),
                 eq(tableName),
+                eq(consumerIdentifier),
                 eq("testTask1"),
                 eq(null),
                 eq(BillingMode.PROVISIONED)

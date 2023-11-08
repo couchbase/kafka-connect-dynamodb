@@ -1,6 +1,6 @@
 buildscript {
   ext {
-    kafkaConnectApiVersion = "2.1.1"
+    kafkaConnectApiVersion = "3.5.1"
   }
 }
 

@@ -43,7 +43,7 @@ public class KclWorkerImplTests {
         when(dynamoDBClient.describeTable(ArgumentMatchers.<DescribeTableRequest>any())).thenReturn(result);
 
         // Act
-        KinesisClientLibConfiguration clientLibConfiguration = kclWorker.getClientLibConfiguration(tableName, taskId, dynamoDBClient, serviceEndpoint, kclTableBillingMode);
+        KinesisClientLibConfiguration clientLibConfiguration = kclWorker.getClientLibConfiguration(tableName, "consumer-1", taskId, dynamoDBClient, serviceEndpoint, kclTableBillingMode);
 
         // Assert
         assertEquals("datalake-KCL-testTableName1", clientLibConfiguration.getApplicationName());
