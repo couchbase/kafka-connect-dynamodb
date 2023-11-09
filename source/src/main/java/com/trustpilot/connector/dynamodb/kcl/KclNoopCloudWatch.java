@@ -220,6 +220,11 @@ public class KclNoopCloudWatch implements AmazonCloudWatch {
     }
 
     @Override
+    public ListManagedInsightRulesResult listManagedInsightRules(ListManagedInsightRulesRequest listManagedInsightRulesRequest) {
+        return null;
+    }
+
+    @Override
     public ListMetricStreamsResult listMetricStreams(ListMetricStreamsRequest listMetricStreamsRequest) {
         return null;
     }
@@ -231,6 +236,11 @@ public class KclNoopCloudWatch implements AmazonCloudWatch {
 
     @Override
     public PutInsightRuleResult putInsightRule(PutInsightRuleRequest putInsightRuleRequest) {
+        return null;
+    }
+
+    @Override
+    public PutManagedInsightRulesResult putManagedInsightRules(PutManagedInsightRulesRequest putManagedInsightRulesRequest) {
         return null;
     }
 }
