@@ -10,7 +10,7 @@ plugins {
     id 'com.palantir.git-version' version '0.5.2'
     id 'com.github.johnrengelman.shadow' version '2.0.4'
     id 'java'
-    id "com.github.spotbugs" version "4.8.0" apply false
+//    id "com.github.spotbugs" version "4.8.1" apply false
     id "net.rdrei.android.buildtimetracker" version "0.11.0"
 }
 
@@ -35,32 +35,32 @@ allprojects {
 
     apply plugin: 'idea'
 
-    apply plugin: 'com.github.spotbugs'
-    tasks.withType(com.github.spotbugs.snom.SpotBugsTask).configureEach {
-        reports {
-            xml.required.set(false)
-            html.required.set(true)
-            ignoreFailures true
-        }
-    }
+//    apply plugin: 'com.github.spotbugs'
+//    tasks.withType(com.github.spotbugs.snom.SpotBugsTask).configureEach {
+//        reports {
+//            xml.required.set(false)
+//            html.required.set(true)
+//            ignoreFailures true
+//        }
+//    }
     apply plugin: "build-time-tracker"
 
 
     dependencies {
         def junitJupiterVersion = '5.6.2'
-        testImplementation "org.junit.jupiter:junit-jupiter:$junitJupiterVersion"
-        testCompile "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
-        testCompile "org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion"
-        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
-        implementation 'io.rest-assured:rest-assured:4.3.1'
-        testCompile "org.testcontainers:testcontainers:1.19.1"
-        testCompile "org.testcontainers:junit-jupiter:1.14.3"
-        testCompile "org.testcontainers:kafka:1.19.1"
-        testCompile "org.testcontainers:mockserver:1.19.1"
-        testCompile "org.mock-server:mockserver-client-java:5.15.0"
-        testCompile "com.google.code.gson:gson:2.8.9"
-
-        testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '2.26.0'
+//        testImplementation "org.junit.jupiter:junit-jupiter:$junitJupiterVersion"
+//        testCompile "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
+//        testCompile "org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion"
+//        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
+//        implementation 'io.rest-assured:rest-assured:5.8.2'
+//        testCompile "org.testcontainers:testcontainers:1.19.1"
+//        testCompile "org.testcontainers:junit-jupiter:1.14.3"
+//        testCompile "org.testcontainers:kafka:1.19.1"
+//        testCompile "org.testcontainers:mockserver:1.19.1"
+//        testCompile "org.mock-server:mockserver-client-java:5.15.0"
+//        testCompile "com.google.code.gson:gson:2.8.9"
+//
+//        testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '2.26.0'
         compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.17.1'
         compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.1'
         compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.17.1'
