@@ -9,5 +9,5 @@ dependencies {
     compile group: 'com.amazonaws', name: 'dynamodb-streams-kinesis-adapter', version: '1.6.0'
     compile group: 'com.amazonaws', name: 'aws-java-sdk-sts', version: '1.11.877'
 
-    implementation 'software.amazon.awssdk:dynamodb:2.21.9'
+    implementation 'software.amazon.awssdk:dynamodb:2.21.21'
 }
