@@ -3,6 +3,7 @@ package com.trustpilot.connector.dynamodb;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBStreams;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.BillingMode;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import com.amazonaws.services.dynamodbv2.model.TableDescription;
 import com.amazonaws.services.dynamodbv2.streamsadapter.model.RecordAdapter;
@@ -150,7 +151,8 @@ public class DynamoDBSourceTask extends SourceTask {
                     eventsQueue,
                     shardRegister);
         }
-        kclWorker.start(client, dynamoDBStreamsClient, tableDesc.getTableName(), config.getConnectorIdentifierName(), config.getTaskID(), config.getDynamoDBServiceEndpoint(), config.getKCLTableBillingMode());
+        // Going for OnDemand Billing Mode
+        kclWorker.start(client, dynamoDBStreamsClient, tableDesc.getTableName(), config.getConnectorIdentifierName(), config.getTaskID(), config.getDynamoDBServiceEndpoint(), BillingMode.fromValue("PAY_PER_REQUEST"));
 
         shutdown = false;
     }
